@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<!-- This file actually works only for finanzen.net
+		some stuff is still hardcoded in the code but most of it can be set here. -->
+	<basics>
+		<base-url>https://www.finanzen.net/aktien/{0}-aktie</base-url>
+		<eur-xpath>/html/body/div[2]/div[1]/div[2]/div[9]/div[1]/div[1]/div[2]/div[1]/div[1]</eur-xpath>
+		<usd-xpath>/html/body/div[2]/div[1]/div[2]/div[9]/div[1]/div[1]/div[2]/div[2]/div[1]</usd-xpath>
+		<stockname-xpath>//h1[@class='font-resize'][1]/text()[1]</stockname-xpath>
+		<wkn-xpath>//span[@class='instrument-id']/span[@class='icon-copy'][1]/@cpval</wkn-xpath>
+		<output-file>stockdata.csv</output-file>
+	</basics>
+	<stocks>
+		<stock>activision_blizzard</stock>
+		<stock>alibaba</stock>
+		<stock>bvb</stock>
+		<stock>cd_projekt_red</stock>
+		<stock>facebook</stock>
+		<stock>nvidia</stock>
+		<stock>paypal</stock>
+		<stock>sap</stock>
+		<stock>sixt</stock>
+		<stock>stryker</stock>
+		<stock>tencent</stock>
+		<stock>xiaomi</stock>
+	</stocks>
+</config>
