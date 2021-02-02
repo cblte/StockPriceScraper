@@ -66,7 +66,7 @@ namespace StockPriceScraper
             {
                 // setup stream to read file
                 var xmldoc = new XmlDocument();
-                xmldoc.Load(@"stock-config.xml");
+                xmldoc.Load("stock-config.xml");
 
                 // reading config
                 stockBaseUrl = xmldoc.DocumentElement.SelectSingleNode("/config/basics/base-url").InnerText;
@@ -146,7 +146,7 @@ namespace StockPriceScraper
             // taking the inner text and replacing some not wanted characters
             var stockNameNode = htmlDoc.DocumentNode.SelectSingleNode(stockNameXpath);
             // do some cleanup - might not work for others...
-            var stockName = stockNameNode.InnerText.Replace("&nbsp;", "");
+            var stockName = stockNameNode.InnerText.Replace("&nbsp;", string.Empty);
 
             // extracting the WKN number from the attribute of this node
             var stockWknNode = htmlDoc.DocumentNode.SelectSingleNode(wknXpath);
@@ -170,7 +170,7 @@ namespace StockPriceScraper
 
             // creating a Stock object to save in the list
             var stock = new StockData(stockName, stockWkn, stockPriceEur, stockPriceUsd);
-            Console.WriteLine("downloaded data from: " + url);
+            Console.WriteLine($"downloaded data from: {url}");
             return stock;
         }
 
@@ -181,8 +181,9 @@ namespace StockPriceScraper
         {
             var maxLenghtOfName = 0;
 
-            Console.WriteLine("Gathered Stock Data");
-            Console.WriteLine("-------------------");
+            var output = "Gathered Stock Data";
+            Console.WriteLine(output);
+            Console.WriteLine(new string('-', output.Length));
 
             // find longest name
             foreach (var stock in lstStocks)
