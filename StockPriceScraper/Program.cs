@@ -9,7 +9,6 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Xml;
 
-
 // Using http://xpather.com/ to find the correct xpath for each of the elements
 
 namespace StockPriceScraper
@@ -19,7 +18,6 @@ namespace StockPriceScraper
     /// </summary>
     class Program
     {
-
         // Items from the configuration file
         private static string stockBaseUrl = string.Empty;
         private static string eurXpath = string.Empty;
@@ -34,7 +32,6 @@ namespace StockPriceScraper
         // List of Stock objects containing webscraped data
         private static readonly List<StockData> lstStocks = new();
 
-
         /// <summary>
         /// Main Method which starts it all! ;-)
         /// </summary>
@@ -43,19 +40,19 @@ namespace StockPriceScraper
         {
             // read config file stock-config.xml
             Console.WriteLine("Reading configuration file.");
-            
+
             if (!ReadConfigurationFile())
             {
                 Console.WriteLine("Bad config file. Exiting.");
                 Environment.Exit(1);
             }
-            
+
             Console.WriteLine("Starting downloads.");
-            
+
             await RunDownloadStockDataAsync().ConfigureAwait(false);
-            
+
             PrintAllStockData();
-            
+
             WriteDataToCsv();
         }
 
@@ -134,7 +131,6 @@ namespace StockPriceScraper
             {
                 lstStocks.Add(stock);
             }
-
         }
 
         /// <summary>

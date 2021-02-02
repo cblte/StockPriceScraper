@@ -2,18 +2,43 @@
 
 namespace StockPriceScraper
 {
-    class StockData
+    /// <summary>
+    /// Holds stock data
+    /// </summary>
+    public class StockData
     {
+        /// <summary>
+        /// Ticks
+        /// </summary>
         public long Ticks { get; set; }
 
+        /// <summary>
+        /// Stock name
+        /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// Stock WKN
+        /// </summary>
         public string Wkn { get; set; }
 
+        /// <summary>
+        /// Stock price in EUR
+        /// </summary>
         public double PriceEUR { get; set; }
 
+        /// <summary>
+        /// Stock price in USD
+        /// </summary>
         public double PriceUSD { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StockData"/> class.
+        /// </summary>
+        /// <param name="stockName">Stock name</param>
+        /// <param name="stockWkn">Stock WKN</param>
+        /// <param name="stockPriceEur">Stock price in EUR</param>
+        /// <param name="stockPriceUsd">Stock price in USD</param>
         public StockData(string stockName, string stockWkn, double stockPriceEur, double stockPriceUsd)
         {
             Ticks = DateTime.UtcNow.Ticks - DateTime.Parse("01/01/1970 00:00:00").Ticks;
@@ -24,6 +49,11 @@ namespace StockPriceScraper
             // set length of maxName for the toString
         }
 
+        /// <summary>
+        /// Prints the instances values with padding
+        /// </summary>
+        /// <param name="namePadding">Size of padding</param>
+        /// <returns></returns>
         public string ToString(int namePadding)
         {
             string s = $"Stock: {Name.PadLeft(namePadding)} (WKN: {Wkn})";
