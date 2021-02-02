@@ -49,7 +49,7 @@ namespace StockPriceScraper
 
             Console.WriteLine("Starting downloads.");
 
-            await RunDownloadStockDataAsync().ConfigureAwait(false);
+            await DownloadStockDataAsync().ConfigureAwait(false);
 
             PrintAllStockData();
 
@@ -96,24 +96,11 @@ namespace StockPriceScraper
 
         /// <summary>
         /// Capsule Method to measure the time for the downloads.
-        /// Not a bad thing actually, because we dont want the main method
-        /// to be async :)
         /// </summary>
-        private static async Task RunDownloadStockDataAsync()
+        private static async Task DownloadStockDataAsync()
         {
             var watch = Stopwatch.StartNew();
 
-            // wait here for all downloads to be finished
-            await DownloadWebsitesAsync().ConfigureAwait(false);
-
-            watch.Stop();
-
-            var elapsed = watch.ElapsedMilliseconds;
-            Console.WriteLine($"Total execution time async: {elapsed}");
-        }
-
-        private static async Task DownloadWebsitesAsync()
-        {
             var websiteUrls = new List<string>();
             var tasks = new List<Task<StockData>>();
 
@@ -131,6 +118,11 @@ namespace StockPriceScraper
             {
                 lstStocks.Add(stock);
             }
+
+            watch.Stop();
+
+            var elapsed = watch.ElapsedMilliseconds;
+            Console.WriteLine($"Total execution time async: {elapsed}");
         }
 
         /// <summary>
