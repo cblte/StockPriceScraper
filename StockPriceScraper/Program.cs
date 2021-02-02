@@ -2,6 +2,7 @@
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Net;
@@ -45,7 +46,7 @@ namespace StockPriceScraper
             if (!ReadConfigurationFile())
             {
                 Console.WriteLine("Bad config file. Exiting.");
-                System.Environment.Exit(1);
+                Environment.Exit(1);
             }
             Console.WriteLine("Starting downloads.");
             await RunDownloadStockDataAsync();
@@ -77,8 +78,7 @@ namespace StockPriceScraper
                 outputfilePath = xmldoc.DocumentElement.SelectSingleNode("/config/basics/output-file").InnerText;
 
                 // reading stocks
-                XmlNodeList stocks = xmldoc.DocumentElement.SelectNodes("/config/stocks/stock");
-                foreach (XmlNode stock in stocks)
+                foreach (XmlNode stock in xmldoc.DocumentElement.SelectNodes("/config/stocks/stock"))
                 {
                     var stockName = stock.InnerText;
                     stockNames.Add(stockName);
@@ -100,7 +100,7 @@ namespace StockPriceScraper
         /// </summary>
         static async Task RunDownloadStockDataAsync()
         {
-            var watch = System.Diagnostics.Stopwatch.StartNew();
+            var watch = Stopwatch.StartNew();
 
             // wait here for all downloads to be finished
             await DownloadWebsitesAsync();
@@ -117,7 +117,7 @@ namespace StockPriceScraper
             // create list of urls to download
             foreach (string stockName in stockNames)
             {
-                var stockUrl = String.Format(stockBaseUrl, stockName);
+                var stockUrl = string.Format(stockBaseUrl, stockName);
                 tasks.Add(Task.Run(() => DownloadWebsite(stockUrl)));
             }
 
@@ -169,9 +169,8 @@ namespace StockPriceScraper
             }
 
             // creating a Stock object to save in the list
-            var stock = new StockData(stockName, stockWkn, stockPriceEur, stockPriceUsd);
             Console.WriteLine($"downloaded data from: {url}");
-            return stock;
+            return new StockData(stockName, stockWkn, stockPriceEur, stockPriceUsd);
         }
 
         /// <summary>
@@ -181,7 +180,7 @@ namespace StockPriceScraper
         {
             var maxLenghtOfName = 0;
 
-            var output = "Gathered Stock Data";
+            const string output = "Gathered Stock Data";
             Console.WriteLine(output);
             Console.WriteLine(new string('-', output.Length));
 
