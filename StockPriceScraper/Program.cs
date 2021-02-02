@@ -150,21 +150,32 @@ namespace StockPriceScraper
             var stockPriceEurNode = htmlDoc.DocumentNode.SelectSingleNode(eurXpath);
             var stockPriceUsdNode = htmlDoc.DocumentNode.SelectSingleNode(usdXpath);
 
-            double stockPriceUsd = 0.0;
-            double stockPriceEur = 0.0;
+            decimal stockPriceUsd = default;
+            decimal stockPriceEur = default;
 
             if (stockPriceEurNode.InnerHtml.Contains("EUR"))
             {
-                stockPriceEur = Double.Parse(stockPriceEurNode.FirstChild.InnerText);
+                stockPriceEur = ParseGermanDecimal(stockPriceEurNode.FirstChild.InnerText);
             }
             if (stockPriceUsdNode.InnerHtml.Contains("USD"))
             {
-                stockPriceUsd = Double.Parse(stockPriceUsdNode.FirstChild.InnerText);
+                stockPriceUsd = ParseGermanDecimal(stockPriceUsdNode.FirstChild.InnerText);
             }
 
             // creating a Stock object to save in the list
             Console.WriteLine($"downloaded data from: {url}");
             return new StockData(stockName, stockWkn, stockPriceEur, stockPriceUsd);
+        }
+
+        /// <summary>
+        /// Parses a string representing a decimal value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        private static decimal ParseGermanDecimal(string value)
+        {
+            // Change , to . for proper parsing
+            return decimal.Parse(value.Replace(',', '.'), NumberStyles.Currency);
         }
 
         /// <summary>

@@ -25,12 +25,12 @@ namespace StockPriceScraper
         /// <summary>
         /// Stock price in EUR
         /// </summary>
-        public double PriceEUR { get; }
+        public decimal PriceEUR { get; }
 
         /// <summary>
         /// Stock price in USD
         /// </summary>
-        public double PriceUSD { get; }
+        public decimal PriceUSD { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StockData"/> class.
@@ -39,7 +39,7 @@ namespace StockPriceScraper
         /// <param name="stockWkn">Stock WKN</param>
         /// <param name="stockPriceEur">Stock price in EUR</param>
         /// <param name="stockPriceUsd">Stock price in USD</param>
-        public StockData(string stockName, string stockWkn, double stockPriceEur, double stockPriceUsd)
+        public StockData(string stockName, string stockWkn, decimal stockPriceEur, decimal stockPriceUsd)
         {
             Ticks = DateTime.UtcNow.Ticks - DateTime.Parse("01/01/1970 00:00:00").Ticks;
             Name = stockName;
