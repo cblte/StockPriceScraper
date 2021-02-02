@@ -15,10 +15,7 @@ namespace StockPriceScraper
         /// <returns></returns>
         public static decimal ToDecimal(this string value)
         {
-            if (string.IsNullOrEmpty(value))
-            {
-                throw new ArgumentNullException(nameof(value));
-            }
+            _ = value ?? throw new ArgumentNullException(nameof(value));
 
             return decimal.Parse(value.Replace(',', '.'), NumberStyles.Currency);
         }
