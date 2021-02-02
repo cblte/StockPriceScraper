@@ -11,7 +11,7 @@ using System.Xml;
 
 // Using http://xpather.com/ to find the correct xpath for each of the elements
 
-namespace stockPriceScraper
+namespace StockPriceScraper
 {
     /// <summary>
     /// This class reads the Stockprices from a configured website and saves the data into a csv file
@@ -210,33 +210,4 @@ namespace stockPriceScraper
             csv.WriteRecords(lstStocks);
         }
     }
-
-    class StockData
-    {
-        public long Ticks { get; set; }
-        public string Name { get; set; }
-        public string wkn { get; set; }
-        public double priceEUR { get; set; }
-        public double priceUSD { get; set; }
-
-        public StockData(string stockName, string stockWkn, double stockPriceEur, double stockPriceUsd)
-        {
-            Ticks = DateTime.UtcNow.Ticks - DateTime.Parse("01/01/1970 00:00:00").Ticks;
-            Name = stockName;
-            wkn = stockWkn;
-            priceEUR = stockPriceEur;
-            priceUSD = stockPriceUsd;
-            // set length of maxName for the toString
-        }
-
-        public string ToString(int namePadding)
-        {
-            string s = $"Stock: {Name.PadLeft(namePadding)} (WKN: {wkn})";
-            s += $"{priceEUR.ToString().PadLeft(10)} EUR / ";
-            s += $"{priceUSD.ToString().PadLeft(10)} USD";
-
-            return s;
-        }
-    }
-
 }
