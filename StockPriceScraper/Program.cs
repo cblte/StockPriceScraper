@@ -20,18 +20,18 @@ namespace StockPriceScraper
     {
 
         // Items from the configuration file
-        private static string stockBaseUrl = "";
-        private static string eurXpath = "";
-        private static string usdXpath = "";
-        private static string outputfilePath = "";
-        private static string stockNameXpath = "";
-        private static string wknXpath;
+        private static string stockBaseUrl = string.Empty;
+        private static string eurXpath = string.Empty;
+        private static string usdXpath = string.Empty;
+        private static string outputfilePath = string.Empty;
+        private static string stockNameXpath = string.Empty;
+        private static string wknXpath = string.Empty;
 
         // Array with stock Names
-        static List<string> stockNames = new List<string>();
+        private static readonly List<string> stockNames = new();
 
         // List of Stock objects containing webscraped data
-        static List<StockData> lstStocks = new List<StockData>();
+        private static readonly List<StockData> lstStocks = new();
 
 
         /// <summary>
@@ -60,12 +60,12 @@ namespace StockPriceScraper
         /// <returns>returns True if config file could be read, False if not</returns>
         static bool ReadConfigurationFile()
         {
-            bool success = true;
+            var success = true;
 
             try
             {
                 // setup stream to read file
-                XmlDocument xmldoc = new XmlDocument();
+                var xmldoc = new XmlDocument();
                 xmldoc.Load(@"stock-config.xml");
 
                 // reading config
@@ -80,7 +80,7 @@ namespace StockPriceScraper
                 XmlNodeList stocks = xmldoc.DocumentElement.SelectNodes("/config/stocks/stock");
                 foreach (XmlNode stock in stocks)
                 {
-                    string stockName = stock.InnerText;
+                    var stockName = stock.InnerText;
                     stockNames.Add(stockName);
                 }
             }
@@ -111,13 +111,13 @@ namespace StockPriceScraper
 
         static async Task DownloadWebsitesAsync()
         {
-            List<string> websiteUrls = new List<string>();
-            List<Task<StockData>> tasks = new List<Task<StockData>>();
+            var websiteUrls = new List<string>();
+            var tasks = new List<Task<StockData>>();
 
             // create list of urls to download
             foreach (string stockName in stockNames)
             {
-                string stockUrl = String.Format(stockBaseUrl, stockName);
+                var stockUrl = String.Format(stockBaseUrl, stockName);
                 tasks.Add(Task.Run(() => DownloadWebsite(stockUrl)));
             }
 
@@ -137,19 +137,20 @@ namespace StockPriceScraper
         /// <param name="url">the url to download</param>
         static StockData DownloadWebsite(string url)
         {
-            WebClient client = new WebClient();
-            string htmlContent = client.DownloadString(url);
+            using var client = new WebClient();
+
+            var htmlContent = client.DownloadString(url);
             var htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(htmlContent);
 
             // taking the inner text and replacing some not wanted characters
             var stockNameNode = htmlDoc.DocumentNode.SelectSingleNode(stockNameXpath);
             // do some cleanup - might not work for others...
-            string stockName = stockNameNode.InnerText.Replace("&nbsp;", "");
+            var stockName = stockNameNode.InnerText.Replace("&nbsp;", "");
 
             // extracting the WKN number from the attribute of this node
             var stockWknNode = htmlDoc.DocumentNode.SelectSingleNode(wknXpath);
-            string stockWkn = stockWknNode.GetAttributeValue("cpval", "NotFound");
+            var stockWkn = stockWknNode.GetAttributeValue("cpval", "NotFound");
 
             // gathering the prices in EUR and USD 
             var stockPriceEurNode = htmlDoc.DocumentNode.SelectSingleNode(eurXpath);
@@ -168,7 +169,7 @@ namespace StockPriceScraper
             }
 
             // creating a Stock object to save in the list
-            StockData stock = new StockData(stockName, stockWkn, stockPriceEur, stockPriceUsd);
+            var stock = new StockData(stockName, stockWkn, stockPriceEur, stockPriceUsd);
             Console.WriteLine("downloaded data from: " + url);
             return stock;
         }
@@ -178,7 +179,7 @@ namespace StockPriceScraper
         /// </summary>
         static void printAllStockData()
         {
-            int maxLenghtOfName = 0;
+            var maxLenghtOfName = 0;
 
             Console.WriteLine("Gathered Stock Data");
             Console.WriteLine("-------------------");
