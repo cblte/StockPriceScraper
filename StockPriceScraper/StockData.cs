@@ -56,11 +56,7 @@ namespace StockPriceScraper
         /// <returns></returns>
         public string ToString(int namePadding)
         {
-            string s = $"Stock: {Name.PadLeft(namePadding)} (WKN: {Wkn})";
-            s += $"{PriceEUR,10} EUR / ";
-            s += $"{PriceUSD,10} USD";
-
-            return s;
+            return $"Stock: {Name.PadLeft(namePadding)} (WKN: {Wkn}) {PriceEUR,10} EUR / {PriceUSD,10} USD";
         }
     }
 }
