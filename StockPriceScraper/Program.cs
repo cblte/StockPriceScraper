@@ -39,27 +39,31 @@ namespace StockPriceScraper
         /// Main Method which starts it all! ;-)
         /// </summary>
         /// <param name="args">Command Line Parameters</param>
-        static async Task Main(string[] args)
+        public static async Task Main(string[] args)
         {
             // read config file stock-config.xml
             Console.WriteLine("Reading configuration file.");
+            
             if (!ReadConfigurationFile())
             {
                 Console.WriteLine("Bad config file. Exiting.");
                 Environment.Exit(1);
             }
+            
             Console.WriteLine("Starting downloads.");
+            
             await RunDownloadStockDataAsync();
-            printAllStockData();
+            
+            PrintAllStockData();
+            
             WriteDataToCsv();
-
         }
 
         /// <summary>
         /// Reads data from the configuration file
         /// </summary>
         /// <returns>returns True if config file could be read, False if not</returns>
-        static bool ReadConfigurationFile()
+        private static bool ReadConfigurationFile()
         {
             var success = true;
 
@@ -98,18 +102,20 @@ namespace StockPriceScraper
         /// Not a bad thing actually, because we dont want the main method
         /// to be async :)
         /// </summary>
-        static async Task RunDownloadStockDataAsync()
+        private static async Task RunDownloadStockDataAsync()
         {
             var watch = Stopwatch.StartNew();
 
             // wait here for all downloads to be finished
             await DownloadWebsitesAsync();
+
             watch.Stop();
+
             var elapsed = watch.ElapsedMilliseconds;
             Console.WriteLine($"Total execution time async: {elapsed}");
         }
 
-        static async Task DownloadWebsitesAsync()
+        private static async Task DownloadWebsitesAsync()
         {
             var websiteUrls = new List<string>();
             var tasks = new List<Task<StockData>>();
@@ -135,7 +141,7 @@ namespace StockPriceScraper
         /// Downloads the website and extracts the stock data from it.
         /// </summary>
         /// <param name="url">the url to download</param>
-        static StockData DownloadWebsite(string url)
+        private static StockData DownloadWebsite(string url)
         {
             using var client = new WebClient();
 
@@ -176,7 +182,7 @@ namespace StockPriceScraper
         /// <summary>
         /// basic output of the gathered stock data
         /// </summary>
-        static void printAllStockData()
+        private static void PrintAllStockData()
         {
             var maxLenghtOfName = 0;
 
