@@ -52,7 +52,7 @@ namespace StockPriceScraper
             
             Console.WriteLine("Starting downloads.");
             
-            await RunDownloadStockDataAsync();
+            await RunDownloadStockDataAsync().ConfigureAwait(false);
             
             PrintAllStockData();
             
@@ -107,7 +107,7 @@ namespace StockPriceScraper
             var watch = Stopwatch.StartNew();
 
             // wait here for all downloads to be finished
-            await DownloadWebsitesAsync();
+            await DownloadWebsitesAsync().ConfigureAwait(false);
 
             watch.Stop();
 
@@ -128,7 +128,7 @@ namespace StockPriceScraper
             }
 
             // wait for all tasks to be finished
-            var results = await Task.WhenAll(tasks);
+            var results = await Task.WhenAll(tasks).ConfigureAwait(false);
 
             foreach (var stock in results)
             {
