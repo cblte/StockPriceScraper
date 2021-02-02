@@ -10,27 +10,27 @@ namespace StockPriceScraper
         /// <summary>
         /// Ticks
         /// </summary>
-        public long Ticks { get; set; }
+        public long Ticks { get; }
 
         /// <summary>
         /// Stock name
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; }
 
         /// <summary>
         /// Stock WKN
         /// </summary>
-        public string Wkn { get; set; }
+        public string Wkn { get; }
 
         /// <summary>
         /// Stock price in EUR
         /// </summary>
-        public double PriceEUR { get; set; }
+        public double PriceEUR { get; }
 
         /// <summary>
         /// Stock price in USD
         /// </summary>
-        public double PriceUSD { get; set; }
+        public double PriceUSD { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StockData"/> class.
