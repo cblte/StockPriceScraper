@@ -1,12 +1,12 @@
-﻿using System;
+﻿using CsvHelper;
+using HtmlAgilityPack;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using System.Xml;
-using CsvHelper;
-using HtmlAgilityPack;
 
 
 // Using http://xpather.com/ to find the correct xpath for each of the elements
@@ -95,17 +95,10 @@ namespace stockPriceScraper
 
         /// <summary>
         /// Capsule Method to measure the time for the downloads.
-        /// Not a bad thing actually, because we dont want the main method 
+        /// Not a bad thing actually, because we dont want the main method
         /// to be async :)
         /// </summary>
-        static async
-        /// <summary>
-        /// Capsule Method to measure the time for the downloads.
-        /// Not a bad thing actually, because we dont want the main method 
-        /// to be async :)
-        /// </summary>
-        Task
-RunDownloadStockDataAsync()
+        static async Task RunDownloadStockDataAsync()
         {
             var watch = System.Diagnostics.Stopwatch.StartNew();
 
@@ -139,7 +132,7 @@ RunDownloadStockDataAsync()
         }
 
         /// <summary>
-        /// Downloads the website and extracts the stock data from it. 
+        /// Downloads the website and extracts the stock data from it.
         /// </summary>
         /// <param name="url">the url to download</param>
         static StockData DownloadWebsite(string url)
